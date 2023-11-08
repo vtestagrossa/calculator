@@ -6,8 +6,16 @@ function createNumberBtns(){
         numBtn.textContent = j;
         numBtn.value = j;
         numBtn.classList.add('num-button');
+        if (j === 0){
+            let dotBtn = document.createElement('button');
+            dotBtn.textContent = ".";
+            dotBtn.value = ".";
+            dotBtn.classList.add('num-button');
+            leftContent.appendChild(dotBtn);
+            numBtn.classList.add('num-button-0');
+            numBtn.setAttribute('width', "60%");
+        }
         leftContent.appendChild(numBtn);
     }
-    
 }
 createNumberBtns();

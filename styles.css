@@ -2,7 +2,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-
+    background-color: black;
 }
 p{
     font-size: xx-large;
@@ -41,6 +41,7 @@ p{
 }
 #cb-L{
     display: flex;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
     height: 100%;
     width: 75%;
@@ -52,6 +53,22 @@ p{
     width: 25%;
 }
 .num-button{
-    height:25%;
+    height:20%;
     width: 30%;
+    margin-top: 15px;
+    margin-left: 15px;
+    border-radius: 24px;
+    font-size: 48px;
+    background-color: rgb(143, 166, 190);
+    color: rgb(228, 228, 228);
+}
+.num-button-0{
+    height:20%;
+    width: 63%;
+    margin-top: 15px;
+    margin-left: 15px;
+    border-radius: 24px;
+    font-size: 48px;
+    background-color: rgb(143, 166, 190);
+    color: rgb(228, 228, 228);
 }
