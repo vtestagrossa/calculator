@@ -10,6 +10,7 @@ let first = "0";
 let second = "0";
 display.textContent = "0";
 
+// TODO: fix bug with operand carrying over
 
 function createNumberBtns(){
     let backBtn = document.createElement('button');
@@ -151,9 +152,12 @@ function numberPressed(evt){
             }
         }
     }
+    console.log(first);
+    console.log(operator);
+    console.log(second);
 }
 function isMaxLength(){
-    if (display.textContent.length <= 37){
+    if (display.textContent.length <= 26){
         return false;
     }
     return true;
@@ -219,6 +223,9 @@ function calculate(first, operator, second){
             break;
     }
 }
+
+// repeated presses of equals button should just repeat the last
+// operation. 
 function equals(){
     if (operator.length >= 1){
         second = display.textContent;
@@ -226,5 +233,8 @@ function equals(){
         display.textContent = first;
         newOperand = false;
     }
+    console.log(first);
+    console.log(operator);
+    console.log(second);
 }
 createNumberBtns();

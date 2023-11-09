@@ -12,8 +12,8 @@ p{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
-    height: 800px;
+    width: 450px;
+    height: 650px;
     background-color: rgb(159, 174, 190);
     border-radius: 25px;
     border-width: 8px;
