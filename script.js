@@ -3,9 +3,11 @@ const rightContent = document.getElementById('cb-R');
 const display = document.getElementById('display');
 let dotted = false;
 let operatorPressed = false;
+let newOperand = false;
+let inFirst = true;
 let operator = "";
-let first = "";
-let second = "";
+let first = "0";
+let second = "0";
 display.textContent = "0";
 
 
@@ -36,7 +38,8 @@ function createNumberBtns(){
         let numBtn = document.createElement('button');
         numBtn.textContent = j;
         numBtn.value = j;
-        // TODO: need to refactor this function.
+       
+        
         numBtn.addEventListener('click', numberPressed);
         numBtn.classList.add('num-button');
         if (j === 0){
@@ -115,17 +118,37 @@ function createNumberBtns(){
 }
 function numberPressed(evt){
     if (!isMaxLength()){
-        if (operatorPressed){
-            display.textContent = "0";
-            operatorPressed = false;
-        }
-        // The leading 0 should be changed to whatever other
-        // number is used.
-        if(display.textContent !== '0'){
-            display.textContent += evt.target.value;
+        if (inFirst){
+            if (newOperand){
+                display.textContent = "0";
+                newOperand = false;
+            }
+            // The leading 0 should be changed to whatever other
+            // number is used.
+            if(display.textContent !== '0'){
+                display.textContent += evt.target.value;
+                first = display.textContent;
+            }
+            else {
+                display.textContent = evt.target.value;
+                first = display.textContent;
+            }
         }
         else {
-            display.textContent = evt.target.value;
+            if (newOperand){
+                display.textContent = "0";
+                newOperand = false;
+            }
+            // The leading 0 should be changed to whatever other
+            // number is used.
+            if(display.textContent !== '0'){
+                display.textContent += evt.target.value;
+                second = display.textContent;
+            }
+            else {
+                display.textContent = evt.target.value;
+                second = display.textContent;
+            }
         }
     }
 }
@@ -147,9 +170,12 @@ function backSpace(){
 function clear(){
     display.textContent = "0";
     dotted = false;
-    first = "";
-    second = "";
+    first = "0";
+    second = "0";
     operator = "";
+    operatorPressed = false;
+    newOperand = true;
+    inFirst = true;
 }
 function dot(){
     if (!dotted){
@@ -160,10 +186,16 @@ function dot(){
 function setOperator(evt){
     if (!operatorPressed){
         first = display.textContent;
+        inFirst = false;
+        operatorPressed = true;
+    }
+    else {
+        equals();
     }
     operator = evt.target.value;
     dotted = false;
-    operatorPressed = true;
+    newOperand = true;
+
 }
 function calculate(first, operator, second){
     switch (operator){
@@ -188,12 +220,11 @@ function calculate(first, operator, second){
     }
 }
 function equals(){
-    if (operator.length === 1){
+    if (operator.length >= 1){
         second = display.textContent;
         first = calculate(first, operator, second);
-        second = "";
         display.textContent = first;
-        operatorPressed = false;
+        newOperand = false;
     }
 }
 createNumberBtns();
