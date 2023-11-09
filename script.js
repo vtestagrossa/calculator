@@ -2,6 +2,7 @@ const leftContent = document.getElementById('cb-L');
 const rightContent = document.getElementById('cb-R');
 const display = document.getElementById('display');
 let dotted = false;
+let operatorPressed = false;
 let operator = "";
 let first = "";
 let second = "";
@@ -15,10 +16,10 @@ function createNumberBtns(){
     clrBtn.addEventListener('click', clear);
 
     backBtn.textContent = "<-";
-    clrBtn.textContent = "CE";
+    clrBtn.textContent = "C";
 
     backBtn.classList.add('num-button');
-    clrBtn.classList.add('num-button');
+    clrBtn.classList.add('num-button-0');
 
 
     let row = document.createElement('div');
@@ -36,16 +37,7 @@ function createNumberBtns(){
         numBtn.textContent = j;
         numBtn.value = j;
         // TODO: need to refactor this function.
-        numBtn.addEventListener('click', () => {
-            if (!isMaxLength()){
-                if(display.textContent !== '0'){
-                    display.textContent += numBtn.value;
-                }
-                else {
-                    display.textContent = numBtn.value;
-                }
-            }
-        });
+        numBtn.addEventListener('click', numberPressed);
         numBtn.classList.add('num-button');
         if (j === 0){
             let dotBtn = document.createElement('button');
@@ -121,6 +113,22 @@ function createNumberBtns(){
     rightContent.appendChild(row);
 
 }
+function numberPressed(evt){
+    if (!isMaxLength()){
+        if (operatorPressed){
+            display.textContent = "0";
+            operatorPressed = false;
+        }
+        // The leading 0 should be changed to whatever other
+        // number is used.
+        if(display.textContent !== '0'){
+            display.textContent += evt.target.value;
+        }
+        else {
+            display.textContent = evt.target.value;
+        }
+    }
+}
 function isMaxLength(){
     if (display.textContent.length <= 37){
         return false;
@@ -150,37 +158,42 @@ function dot(){
     }
 }
 function setOperator(evt){
-    if (first.length <= 0) {
+    if (!operatorPressed){
         first = display.textContent;
     }
     operator = evt.target.value;
+    dotted = false;
+    operatorPressed = true;
 }
 function calculate(first, operator, second){
     switch (operator){
         case '/':
             if (second !== "0"){
-                return first / second;
+                return +first / +second;
             }
             else {
                 alert("You cannot divide by 0!");
+                return first;
             }
             break;
         case '*':
-            return first * second;
+            return +first * +second;
             break;
         case '-':
-            return first - second;
+            return +first - +second;
             break;
         case '+':
-            return first + second;
+            return +first + +second;
             break;
     }
 }
 function equals(){
-    if (first.length >= 1 && second.length >= 1 && operator.length === 1){
+    if (operator.length === 1){
+        second = display.textContent;
         first = calculate(first, operator, second);
         second = "";
         display.textContent = first;
+        operatorPressed = false;
     }
 }
 createNumberBtns();
