@@ -204,26 +204,21 @@ function setOperator(evt){
 }
 // Unary add is needed to add the strings instead of
 // concatenating them.
-function calculate(first, operator, second){
-    switch (operator){
+function calculate(firstOperand, operation, secondOperand){
+    switch (operation){
         case '/':
-            if (second !== "0"){
-                return +first / +second;
-            }
-            else {
+            if (secondOperand === "0"){
                 alert("You cannot divide by 0!");
-                return first;
+                second = 1;
+                return firstOperand;
             }
-            break;
+            return +firstOperand / +secondOperand;
         case '*':
-            return +first * +second;
-            break;
+            return +firstOperand * +secondOperand;
         case '-':
-            return +first - +second;
-            break;
+            return +firstOperand - +secondOperand;
         case '+':
-            return +first + +second;
-            break;
+            return +firstOperand + +secondOperand;
     }
 }
 
