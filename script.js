@@ -5,6 +5,7 @@ let dotted = false;
 let operatorPressed = false;
 let newOperand = false;
 let inFirstOperand = true;
+let secondChanged = false;
 let operator = "";
 let first = "0";
 let second = "0";
@@ -83,7 +84,7 @@ function createNumberBtns(){
     multBtn.addEventListener('click', setOperator);
     minBtn.addEventListener('click', setOperator);
     plsBtn.addEventListener('click', setOperator);
-    eqlsBtn.addEventListener('click', solveEquation);
+    eqlsBtn.addEventListener('click', equals);
     
     // uses rows for the same spacing as the left part
     // of the bottom container
@@ -155,6 +156,7 @@ function numberPressed(evt){
                 display.textContent = evt.target.value;
                 second = display.textContent;
             }
+            secondChanged = true;
         }
     }
 }
@@ -184,6 +186,7 @@ function clear(){
     operatorPressed = false;
     newOperand = true;
     inFirstOperand = true;
+    secondChanged = false;
 }
 function dot(){
     if (!dotted){
@@ -192,12 +195,10 @@ function dot(){
     }
 }
 function setOperator(evt){
-    if (operatorPressed){
-        solveEquation();
+    if (secondChanged){
+        equals();
     }
-    first = display.textContent;
     inFirstOperand = false;
-    operatorPressed = true;
     operator = evt.target.value;
     dotted = false;
     newOperand = true;
@@ -223,13 +224,11 @@ function calculate(firstOperand, operation, secondOperand){
 }
 
 // repeated presses of equals button now repeats operation
-function solveEquation(){
+function equals(){
     if (operator.length >= 1){
-        // no longer needed because second is updated in real
-        // time.
-        // second = display.textContent;
         first = calculate(first, operator, second);
-        display.textContent = first;
     }
+    display.textContent = first;
+    secondChanged = false;
 }
 createNumberBtns();
